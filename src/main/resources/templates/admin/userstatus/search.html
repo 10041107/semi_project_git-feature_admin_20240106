@@ -105,14 +105,14 @@
             <div class="row align-items-center justify-content-between">
                 <!-- 검색 폼 -->
                 <div class="col-6">
-                    <form th:action="@{admin}" method="get" class="d-flex">
+                    <form th:action="@{/admin/userstatus/search}" method="get" class="d-flex">
                         <input type="text" class="form-control me-2" name="keyword" placeholder="검색어를 입력하세요" />
                         <button type="submit" class="btn btn-primary">검색</button>
                     </form>
                 </div>
                 <!-- 사용자 추가 버튼 -->
                 <div class="col-auto">
-                    <a href="/admin/userstatus/add" class="btn btn-success my-3">사용자 추가</a>
+                    <a th:href="@{/admin/userstatus/add}" class="btn btn-success my-3">사용자 추가</a>
                 </div>
             </div>
         </div>
@@ -195,16 +195,14 @@
             <button type="submit">전체 사용자 목록으로 돌아가기</button>
         </form>
 
+
+        <div th:if="${session.message}">
+            <p th:text="${session.message}"></p>
+        </div>
         <!-- 하단 바 -->
         <footer class="bottom-bar">
-            <!-- ... -->
         </footer>
     </div>
-
-    <div th:if="${session.message}">
-        <p th:text="${session.message}"></p>
-    </div>
-
 </div>
 </body>
 </html>

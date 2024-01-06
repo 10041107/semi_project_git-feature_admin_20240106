@@ -21,14 +21,17 @@
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <!-- === 기본설정 === -->
+
 <!-- 상단 바 -->
 <header class="top-bar">
     <div class="logo-container">
         PetTales Administrator
     </div>
 </header>
+
 <!-- 컨텐츠 -->
 <div class="content-wrapper">
+
     <!-- 부트스트랩 사이드바 -->
     <div class="sidebar">
         <!-- 사이드바 토글 -->
@@ -93,37 +96,33 @@
             this.style.display = 'none';
         });
     </script>
+
+    <!-- === 해당 페이지 설정 ==== -->
     <div class="atable">
-        <h1>시설 조회</h1>
+        <h1>유저 목록</h1>
         <hr class=" border-2 opacity-50">
-        <div class="upbar2">
-            <div class="row align-items-center justify-content-between">
-                <!-- === 해당 페이지 설정 ==== -->
-
-
-
-
         <div class="upbar2">
             <div class="row align-items-center justify-content-between">
                 <!-- 검색 폼 -->
                 <div class="col-6">
-                    <form th:action="@{admin}" method="get" class="d-flex">
+                    <form th:action="@{/admin/companystatus/search}" method="get" class="d-flex">
                         <input type="text" class="form-control me-2" name="keyword" placeholder="검색어를 입력하세요" />
                         <button type="submit" class="btn btn-primary">검색</button>
                     </form>
                 </div>
                 <!-- 사용자 추가 버튼 -->
                 <div class="col-auto">
-                    <a href="/admin/userstatus/add" class="btn btn-success my-3">사용자 추가</a>
+                    <a th:href="@{/admin/companystatus/add}" class="btn btn-success my-3">사용자 추가</a>
                 </div>
             </div>
         </div>
 
-                <div class="table-responsive" style="overflow-x:auto;">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                        <tr style="white-space: nowrap;">
-                        <th>업체 코드</th>
+        <div class="table-responsive" style="overflow-x:auto;">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr style="white-space: nowrap;">
+                    <!-- 헤더 -->
+                    <th>업체 코드</th>
                     <th>업체 분류</th>
                     <th>업체 상태</th>
                     <th>업체 이름</th>
@@ -168,18 +167,19 @@
 
                     <!-- 사용자 수정 링크 -->
                     <td>
-                        <form th:action="@{/admin/userstatus/edit/{userCode}(userCode=${user.userCode})}" method="get">
+                        <form th:action="@{/admin/companystatus/edit/{userCode}(userCode=${user.userCode})}" method="get">
                             <button type="submit">수정</button>
                         </form>
                     </td>
 
                     <!-- 사용자 삭제 버튼 -->
                     <td>
-                        <form th:action="@{/admin/userstatus/delete/{userCode}(userCode=${user.userCode})}" method="post" onSubmit="return confirmDelete(this);">
+                        <form th:action="@{/admin/companystatus/delete/{userCode}(userCode=${user.userCode})}" method="post" onSubmit="return confirmDelete(this);">
                             <input type="hidden" name="_method" value="delete" />
                             <button type="submit" th:attr="data-user-nickname=${user.userNickname}">삭제</button>
                         </form>
                     </td>
+
 
                 </tr>
                 <tr th:if="${users != null and users.isEmpty()}">
@@ -188,37 +188,38 @@
                     </table>
                 </div>
 
-                <div> <span th:text="'총 사용자 수: ' + ${totalUserCount}">총 사용자 수</span> </div>
-
-                <!-- 페이지네이션 로직 -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        <li th:classappend="${currentPage == 1} ? 'page-item disabled' : 'page-item'">
-                            <a class="page-link" th:if="${currentPage > 1}" th:href="@{/admin/userstatus(page=${currentPage-1})}" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item active">
-                            <span class="page-link" th:text="${currentPage}">현재 페이지</span>
-                        </li>
-                        <li th:classappend="${usersCountOnPage != 20 or (currentPage * 20) >= totalUserCount} ? 'page-item disabled' : 'page-item'">
-                            <a class="page-link" th:if="${usersCountOnPage == 20 and (currentPage * 20) < totalUserCount}" th:href="@{/admin/userstatus(page=${currentPage+1})}" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-
-
-
-
-                <div th:if="${session.message}">
-                    <p th:text="${session.message}"></p>
-                </div>
-                <!-- 하단 바 -->
-                <footer class="bottom-bar">
-                </footer>
-            </div>
+        <div>
+            <span th:text="'총 회사 수: ' + ${totalCompanyCount}">총 회사 수</span>
         </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li th:classappend="${currentPage == 1} ? 'page-item disabled' : 'page-item'">
+                    <a class="page-link" th:if="${currentPage > 1}" th:href="@{/admin/companystatus(page=${currentPage-1})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item active">
+                    <span class="page-link" th:text="${currentPage}">현재 페이지</span>
+                </li>
+                <li th:classappend="${companiesCountOnPage != 10 or (currentPage * 10) >= totalCompanyCount} ? 'page-item disabled' : 'page-item'">
+                    <a class="page-link" th:if="${companiesCountOnPage == 10 and (currentPage * 10) < totalCompanyCount}" th:href="@{/admin/companystatus(page=${currentPage+1})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+
+
+
+
+        <div th:if="${session.message}">
+            <p th:text="${session.message}"></p>
+        </div>
+        <!-- 하단 바 -->
+        <footer class="bottom-bar">
+        </footer>
+    </div>
+</div>
 </body>
 </html>

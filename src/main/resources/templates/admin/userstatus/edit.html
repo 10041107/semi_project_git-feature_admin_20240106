@@ -157,19 +157,13 @@
 
     <!-- 돌아가기 버튼 -->
     <div class="col-auto">
-        <a th:href="@{/admin/userstatus}" class="btn btn-success my-3">전체 사용자 목록으로 돌아가기</a>
+        <a th:href="@{/admin/userstatus}" class="btn btn-success my-3">전체 시설 목록으로 돌아가기</a>
     </div>
-
 
     <!-- 오류 메시지가 있을 때 JavaScript를 통해 alert 표시 -->
     <script th:if="${error}" th:inline="javascript">
         alert([[${error}]]);
     </script>
-
-    <div th:if="${session.message}">
-        <p th:text="${session.message}"></p>
-    </div>
-
 
     <!-- 하단 바 -->
     <footer class="bottom-bar">

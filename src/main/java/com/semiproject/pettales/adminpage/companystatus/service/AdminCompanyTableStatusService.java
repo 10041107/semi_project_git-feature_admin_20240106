@@ -154,5 +154,7 @@ public class AdminCompanyTableStatusService {
     }
 
 
-
+    public int getCompanyCount() {
+        return (int) adminCompanyTableStatusRepository.count();
+    }
 }

@@ -35,7 +35,11 @@ public class AdminCompanyTableStatusController {
     public ModelAndView listCompanies(@RequestParam(value = "page", defaultValue = "1") int page) {
         ModelAndView mv = new ModelAndView();
         List<CompanyTableDTO> companies = adminCompanyTableStatusService.getCompaniesPerPage(page, 10);
+        int totalCompanyCount = adminCompanyTableStatusService.getCompanyCount();
         mv.addObject("companies", companies);
+        mv.addObject("totalCompanyCount", totalCompanyCount);
+        mv.addObject("currentPage", page);
+        mv.addObject("companiesCountOnPage", companies.size());
         mv.setViewName("/admin/companystatus");
         return mv;
     }

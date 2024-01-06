@@ -97,9 +97,14 @@ public class AdminInquiryStatusController {
         List<InquiryDTO> inquiries = allInquiries.subList(start, end);
 
         mv.addObject("inquiries", inquiries);
+        mv.addObject("userCode", userCode);
+        mv.addObject("currentPage", page);
+        mv.addObject("inquiriesPerPage", inquiriesPerPage);
+        mv.addObject("totalInquiryCount", allInquiries.size());
         mv.setViewName("/admin/inquirystatus/user");
         return mv;
     }
+
 
     // 답변이 있는 문의사항 목록을 조회하는 메소드 (페이징15개까지)
     @GetMapping("/inquirystatus/answered")
